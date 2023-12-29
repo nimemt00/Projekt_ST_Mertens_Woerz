@@ -1,97 +1,176 @@
-class MusicLibrary:
-    def __init__(self):
-        self.songs = []
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
-    def load_library(self, file_path):
-        try:
-            with open(file_path, 'r') as file:
-                self.songs = json.load(file)
-                print("Library loaded.")
-        except FileNotFoundError:
-            print("No library found. Creating a new one.")
+#define MAX_SONGS 100
 
-    def save_library(self, file_path):
-        with open(file_path, 'w') as file:
-            json.dump(self.songs, file)
-        print("Library saved.")
+struct Song {
+    char title[100];
+    char artist[100];
+    char album[100];
+    char year[5];
+};
 
-    def add_song(self, title, artist, album, year):
-        song = {
-            'title': title,
-            'artist': artist,
-            'album': album,
-            'year': year
+struct MusicLibrary {
+    struct Song songs[MAX_SONGS];
+    int songCount;
+};
+
+void loadLibrary(struct MusicLibrary *musicLibrary, const char *filePath) {
+    FILE *file = fopen(filePath, "r");
+    if (file != NULL) {
+        fscanf(file, "%s", musicLibrary->songs[0].title);
+        printf("Library loaded.\n");
+        fclose(file);
+    } else {
+        printf("No library found. Creating a new one.\n");
+    }
+}
+
+void saveLibrary(const struct MusicLibrary *musicLibrary, const char *filePath) {
+    FILE *file = fopen(filePath, "w");
+    if (file != NULL) {
+        fprintf(file, "%s", musicLibrary->songs[0].title);
+        printf("Library saved.\n");
+        fclose(file);
+    }
+}
+
+void addSong(struct MusicLibrary *musicLibrary) {
+    struct Song song;
+    printf("Enter Song Information:\n");
+    printf("Title: ");
+    scanf("%s", song.title);
+    printf("Artist: ");
+    scanf("%s", song.artist);
+    printf("Album: ");
+    scanf("%s", song.album);
+    printf("Year: ");
+    scanf("%s", song.year);
+
+    if (musicLibrary->songCount < MAX_SONGS) {
+        musicLibrary->songs[musicLibrary->songCount++] = song;
+        printf("Song added.\n");
+    } else {
+        printf("Maximum song limit reached.\n");
+    }
+}
+
+void editSong(struct MusicLibrary *musicLibrary) {
+    char editTitle[100], field[100], newValue[100];
+    printf("Enter Title of the Song to Edit: ");
+    scanf("%s", editTitle);
+
+    for (int i = 0; i < musicLibrary->songCount; ++i) {
+        if (strcmp(musicLibrary->songs[i].title, editTitle) == 0) {
+            printf("Enter Field to Edit (title/artist/album/year): ");
+            scanf("%s", field);
+            printf("Enter New Value: ");
+            scanf("%s", newValue);
+
+            if (strcmp(field, "title") == 0) {
+                strcpy(musicLibrary->songs[i].title, newValue);
+            } else if (strcmp(field, "artist") == 0) {
+                strcpy(musicLibrary->songs[i].artist, newValue);
+            } else if (strcmp(field, "album") == 0) {
+                strcpy(musicLibrary->songs[i].album, newValue);
+            } else if (strcmp(field, "year") == 0) {
+                strcpy(musicLibrary->songs[i].year, newValue);
+            }
+
+            printf("Song info updated.\n");
+            return;
         }
-        self.songs.append(song)
-        print("Song added.")
+    }
+    printf("Song not found.\n");
+}
 
-    def edit_song(self, title, field, new_value):
-        for song in self.songs:
-            if song['title'] == title:
-                song[field] = new_value
-                print("Song info updated.")
-                return
-        print("Song not found.")
+void deleteSong(struct MusicLibrary *musicLibrary) {
+    char deleteTitle[100];
+    printf("Enter Title of the Song to Delete: ");
+    scanf("%s", deleteTitle);
 
-    def delete_song(self, title):
-        for song in self.songs:
-            if song['title'] == title:
-                self.songs.remove(song)
-                print("Song deleted.")
-                return
-        print("Song not found.")
+    for (int i = 0; i < musicLibrary->songCount; ++i) {
+        if (strcmp(musicLibrary->songs[i].title, deleteTitle) == 0) {
+            for (int j = i; j < musicLibrary->songCount - 1; ++j) {
+                musicLibrary->songs[j] = musicLibrary->songs[j + 1];
+            }
+            --musicLibrary->songCount;
+            printf("Song deleted.\n");
+            return;
+        }
+    }
+    printf("Song not found.\n");
+}
 
-    def search_library(self, query):
-        results = [song for song in self.songs if query.lower() in song['title'].lower()]
-        if results:
-            print("Search results:")
-            for result in results:
-                print(result)
-        else:
-            print("No results found.")
+void searchLibrary(const struct MusicLibrary *musicLibrary) {
+    char query[100];
+    printf("Enter Search Term: ");
+    scanf("%s", query);
 
-def main():
-    music_lib = MusicLibrary()
-    file_path = 'music_lib.json'  
+    int found = 0;
+    printf("Search results:\n");
+    for (int i = 0; i < musicLibrary->songCount; ++i) {
+        if (strstr(musicLibrary->songs[i].title, query) != NULL) {
+            printf("Title: %s, Artist: %s, Album: %s, Year: %s\n",
+                   musicLibrary->songs[i].title,
+                   musicLibrary->songs[i].artist,
+                   musicLibrary->songs[i].album,
+                   musicLibrary->songs[i].year);
+            found = 1;
+        }
+    }
 
-    while True:
-        print("\n=== Music Library Management ===")
-        print("1. Load Library")
-        print("2. Save Library")
-        print("3. Add Song")
-        print("4. Edit Song Info")
-        print("5. Delete Song")
-        print("6. Search Library")
-        print("7. Exit")
+    if (!found) {
+        printf("No results found.\n");
+    }
+}
 
-        choice = input("Select an option (1-7): ")
+int main() {
+    struct MusicLibrary musicLib;
+    musicLib.songCount = 0;
+    const char *filePath = "music_lib.txt";
 
-        if choice == '1':
-            music_lib.load_library(file_path)
-        elseif choice == '2':
-            music_lib.save_library(file_path)
-        elseif choice == '3':
-            title = input("Title: ")
-            artist = input("Artist: ")
-            album = input("Album: ")
-            year = input("Year: ")
-            music_lib.add_song(title, artist, album, year)
-        elseif choice == '4':
-            title = input("Title: ")
-            field = input("Field (title/artist/album/year): ")
-            new_value = input("New Value: ")
-            music_lib.edit_song(title, field, new_value)
-        elseif choice == '5':
-            title = input("Title: ")
-            music_lib.delete_song(title)
-        elseif choice == '6':
-            query = input("Search term: ")
-            music_lib.search_library(query)
-        elseif choice == '7':
-            print("Exiting program.")
-            break
-        else:
-            print("Invalid choice. Try again.")
+    while (1) {
+        printf("\n=== Music Library Management ===\n");
+        printf("1. Load Library\n");
+        printf("2. Save Library\n");
+        printf("3. Add Song\n");
+        printf("4. Edit Song Info\n");
+        printf("5. Delete Song\n");
+        printf("6. Search Library\n");
+        printf("7. Exit\n");
 
-if __name__ == "__main__":
-    main()
+        int choice;
+        printf("Select an option (1-7): ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                loadLibrary(&musicLib, filePath);
+                break;
+            case 2:
+                saveLibrary(&musicLib, filePath);
+                break;
+            case 3:
+                addSong(&musicLib);
+                break;
+            case 4:
+                editSong(&musicLib);
+                break;
+            case 5:
+                deleteSong(&musicLib);
+                break;
+            case 6:
+                searchLibrary(&musicLib);
+                break;
+            case 7:
+                printf("Exiting program.\n");
+                return 0;
+            default:
+                printf("Invalid choice. Try again.\n");
+        }
+    }
+
+    return 0;
+}

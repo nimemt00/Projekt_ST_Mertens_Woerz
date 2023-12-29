@@ -2,173 +2,173 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define MAX_SONGS 100
+#define MAX_SONGS 1000
 
-struct Song {
-    char title[100];
-    char artist[100];
-    char album[100];
-    char year[5];
+struct song {
+    char titel[1000];
+    char kuenstler[1000];
+    char album[1000];
+    char jahr[50];
 };
 
-struct MusicLibrary {
-    struct Song songs[MAX_SONGS];
-    int songCount;
+struct MusikBibliothek {
+    struct song songs[MAX_SONGS];
+    int songAnzahl;
 };
 
-void loadLibrary(struct MusicLibrary *musicLibrary, const char *filePath) {
-    FILE *file = fopen(filePath, "r");
-    if (file != NULL) {
-        fscanf(file, "%s", musicLibrary->songs[0].title);
-        printf("Library loaded.\n");
-        fclose(file);
+void bibliothekLaden(struct MusikBibliothek *musikBibliothek, const char *dateiPfad) {
+    FILE *datei = fopen(dateiPfad, "r");
+    if (datei != NULL) {
+        fscanf(datei, "%s", musikBibliothek->songs[0].titel);
+        printf("Bibliothek geladen.\n");
+        fclose(datei);
     } else {
-        printf("No library found. Creating a new one.\n");
+        printf("Keine Bibliothek gefunden. Eine neue wird erstellt.\n");
     }
 }
 
-void saveLibrary(const struct MusicLibrary *musicLibrary, const char *filePath) {
-    FILE *file = fopen(filePath, "w");
-    if (file != NULL) {
-        fprintf(file, "%s", musicLibrary->songs[0].title);
-        printf("Library saved.\n");
-        fclose(file);
+void bibliothekSpeichern(const struct MusikBibliothek *musikBibliothek, const char *dateiPfad) {
+    FILE *datei = fopen(dateiPfad, "w");
+    if (datei != NULL) {
+        fprintf(datei, "%s", musikBibliothek->songs[0].titel);
+        printf("Bibliothek gespeichert.\n");
+        fclose(datei);
     }
 }
 
-void addSong(struct MusicLibrary *musicLibrary) {
-    struct Song song;
-    printf("Enter Song Information:\n");
-    printf("Title: ");
-    scanf("%s", song.title);
-    printf("Artist: ");
-    scanf("%s", song.artist);
+void songHinzufuegen(struct MusikBibliothek *musikBibliothek) {
+    struct song songs;
+    printf("Liedinformationen eingeben:\n");
+    printf("Titel: ");
+    scanf("%s", songs.titel);
+    printf("Künstler: ");
+    scanf("%s", songs.kuenstler);
     printf("Album: ");
-    scanf("%s", song.album);
-    printf("Year: ");
-    scanf("%s", song.year);
+    scanf("%s", songs.album);
+    printf("Jahr: ");
+    scanf("%s", songs.jahr);
 
-    if (musicLibrary->songCount < MAX_SONGS) {
-        musicLibrary->songs[musicLibrary->songCount++] = song;
-        printf("Song added.\n");
+    if (musikBibliothek->songAnzahl < MAX_SONGS) {
+        musikBibliothek->songs[musikBibliothek->songAnzahl++] = songs;
+        printf("Lied hinzugefügt.\n");
     } else {
-        printf("Maximum song limit reached.\n");
+        printf("Maximale Liedanzahl erreicht.\n");
     }
 }
 
-void editSong(struct MusicLibrary *musicLibrary) {
-    char editTitle[100], field[100], newValue[100];
-    printf("Enter Title of the Song to Edit: ");
-    scanf("%s", editTitle);
+void songBearbeiten(struct MusikBibliothek *musikBibliothek) {
+    char bearbeitenTitel[100], feld[100], neuerWert[100];
+    printf("Titel des zu bearbeitenden Lieds eingeben: ");
+    scanf("%s", bearbeitenTitel);
 
-    for (int i = 0; i < musicLibrary->songCount; ++i) {
-        if (strcmp(musicLibrary->songs[i].title, editTitle) == 0) {
-            printf("Enter Field to Edit (title/artist/album/year): ");
-            scanf("%s", field);
-            printf("Enter New Value: ");
-            scanf("%s", newValue);
+    for (int i = 0; i < musikBibliothek->songAnzahl; ++i) {
+        if (strcmp(musikBibliothek->songs[i].titel, bearbeitenTitel) == 0) {
+            printf("Zu bearbeitendes Feld eingeben (titel/kuenstler/album/jahr): ");
+            scanf("%s", feld);
+            printf("Neuer Wert eingeben: ");
+            scanf("%s", neuerWert);
 
-            if (strcmp(field, "title") == 0) {
-                strcpy(musicLibrary->songs[i].title, newValue);
-            } else if (strcmp(field, "artist") == 0) {
-                strcpy(musicLibrary->songs[i].artist, newValue);
-            } else if (strcmp(field, "album") == 0) {
-                strcpy(musicLibrary->songs[i].album, newValue);
-            } else if (strcmp(field, "year") == 0) {
-                strcpy(musicLibrary->songs[i].year, newValue);
+            if (strcmp(feld, "titel") == 0) {
+                strcpy(musikBibliothek->songs[i].titel, neuerWert);
+            } else if (strcmp(feld, "kuenstler") == 0) {
+                strcpy(musikBibliothek->songs[i].kuenstler, neuerWert);
+            } else if (strcmp(feld, "album") == 0) {
+                strcpy(musikBibliothek->songs[i].album, neuerWert);
+            } else if (strcmp(feld, "jahr") == 0) {
+                strcpy(musikBibliothek->songs[i].jahr, neuerWert);
             }
 
-            printf("Song info updated.\n");
+            printf("Liedinformationen aktualisiert.\n");
             return;
         }
     }
-    printf("Song not found.\n");
+    printf("Lied nicht gefunden.\n");
 }
 
-void deleteSong(struct MusicLibrary *musicLibrary) {
-    char deleteTitle[100];
-    printf("Enter Title of the Song to Delete: ");
-    scanf("%s", deleteTitle);
+void songLoeschen(struct MusikBibliothek *musikBibliothek) {
+    char loeschenTitel[100];
+    printf("Titel des zu löschenden Lieds eingeben: ");
+    scanf("%s", loeschenTitel);
 
-    for (int i = 0; i < musicLibrary->songCount; ++i) {
-        if (strcmp(musicLibrary->songs[i].title, deleteTitle) == 0) {
-            for (int j = i; j < musicLibrary->songCount - 1; ++j) {
-                musicLibrary->songs[j] = musicLibrary->songs[j + 1];
+    for (int i = 0; i < musikBibliothek->songAnzahl; ++i) {
+        if (strcmp(musikBibliothek->songs[i].titel, loeschenTitel) == 0) {
+            for (int j = i; j < musikBibliothek->songAnzahl - 1; ++j) {
+                musikBibliothek->songs[j] = musikBibliothek->songs[j + 1];
             }
-            --musicLibrary->songCount;
-            printf("Song deleted.\n");
+            --musikBibliothek->songAnzahl;
+            printf("Lied gelöscht.\n");
             return;
         }
     }
-    printf("Song not found.\n");
+    printf("Lied nicht gefunden.\n");
 }
 
-void searchLibrary(const struct MusicLibrary *musicLibrary) {
-    char query[100];
-    printf("Enter Search Term: ");
-    scanf("%s", query);
+void bibliothekDurchsuchen(const struct MusikBibliothek *musikBibliothek) {
+    char suchbegriff[100];
+    printf("Suchbegriff eingeben: ");
+    scanf("%s", suchbegriff);
 
-    int found = 0;
-    printf("Search results:\n");
-    for (int i = 0; i < musicLibrary->songCount; ++i) {
-        if (strstr(musicLibrary->songs[i].title, query) != NULL) {
-            printf("Title: %s, Artist: %s, Album: %s, Year: %s\n",
-                   musicLibrary->songs[i].title,
-                   musicLibrary->songs[i].artist,
-                   musicLibrary->songs[i].album,
-                   musicLibrary->songs[i].year);
-            found = 1;
+    int gefunden = 0;
+    printf("Suchergebnisse:\n");
+    for (int i = 0; i < musikBibliothek->songAnzahl; ++i) {
+        if (strstr(musikBibliothek->songs[i].titel, suchbegriff) != NULL) {
+            printf("Titel: %s, Künstler: %s, Album: %s, Jahr: %s\n",
+                   musikBibliothek->songs[i].titel,
+                   musikBibliothek->songs[i].kuenstler,
+                   musikBibliothek->songs[i].album,
+                   musikBibliothek->songs[i].jahr);
+            gefunden = 1;
         }
     }
 
-    if (!found) {
-        printf("No results found.\n");
+    if (!gefunden) {
+        printf("Keine Ergebnisse gefunden.\n");
     }
 }
 
 int main() {
-    struct MusicLibrary musicLib;
-    musicLib.songCount = 0;
-    const char *filePath = "music_lib.txt";
+    struct MusikBibliothek musikBib;
+    musikBib.songAnzahl = 0;
+    const char *dateiPfad = "musik_bib.txt";
 
     while (1) {
-        printf("\n=== Music Library Management ===\n");
-        printf("1. Load Library\n");
-        printf("2. Save Library\n");
-        printf("3. Add Song\n");
-        printf("4. Edit Song Info\n");
-        printf("5. Delete Song\n");
-        printf("6. Search Library\n");
-        printf("7. Exit\n");
+        printf("\n=== Musikbibliothek verwalten ===\n");
+        printf("1. Bibliothek laden\n");
+        printf("2. Bibliothek speichern\n");
+        printf("3. Song hinzufügen\n");
+        printf("4. Metadaten bearbeiten\n");
+        printf("5. Song löschen\n");
+        printf("6. Bibliothek durchsuchen\n");
+        printf("7. Beenden\n");
 
-        int choice;
-        printf("Select an option (1-7): ");
-        scanf("%d", &choice);
+        int auswahl;
+        printf("Option auswählen (1-7): ");
+        scanf("%d", &auswahl);
 
-        switch (choice) {
+        switch (auswahl) {
             case 1:
-                loadLibrary(&musicLib, filePath);
+                bibliothekLaden(&musikBib, dateiPfad);
                 break;
             case 2:
-                saveLibrary(&musicLib, filePath);
+                bibliothekSpeichern(&musikBib, dateiPfad);
                 break;
             case 3:
-                addSong(&musicLib);
+                songHinzufuegen(&musikBib);
                 break;
             case 4:
-                editSong(&musicLib);
+                songBearbeiten(&musikBib);
                 break;
             case 5:
-                deleteSong(&musicLib);
+                songLoeschen(&musikBib);
                 break;
             case 6:
-                searchLibrary(&musicLib);
+                bibliothekDurchsuchen(&musikBib);
                 break;
             case 7:
-                printf("Exiting program.\n");
+                printf("Programm wird beendet.\n");
                 return 0;
             default:
-                printf("Invalid choice. Try again.\n");
+                printf("Ungültige Auswahl. Bitte erneut versuchen.\n");
         }
     }
 

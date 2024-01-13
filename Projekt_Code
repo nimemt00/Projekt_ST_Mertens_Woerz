@@ -40,7 +40,8 @@ void songHinzufuegen(struct MusikBibliothek *musikBibliothek) {
     struct song songs;
     printf("Liedinformationen eingeben:\n");
     printf("Titel: ");
-    scanf("%s", songs.titel);
+    char Titel[100];
+    scanf("%s", Titel);
     printf("Künstler: ");
     scanf("%s", songs.kuenstler);
     printf("Album: ");
@@ -116,11 +117,7 @@ void bibliothekDurchsuchen(const struct MusikBibliothek *musikBibliothek) {
     printf("Suchergebnisse:\n");
     for (int i = 0; i < musikBibliothek->songAnzahl; ++i) {
         if (strstr(musikBibliothek->songs[i].titel, suchbegriff) || strstr(musikBibliothek->songs[i].kuenstler, suchbegriff) || strstr(musikBibliothek->songs[i].album, suchbegriff) || strstr(musikBibliothek->songs[i].jahr, suchbegriff) != NULL) {
-            printf("Titel: %s, Künstler: %s, Album: %s, Jahr: %s\n",
-                   musikBibliothek->songs[i].titel,
-                   musikBibliothek->songs[i].kuenstler,
-                   musikBibliothek->songs[i].album,
-                   musikBibliothek->songs[i].jahr);
+            printf("Titel: %s, Künstler: %s, Album: %s, Jahr: %s\n", musikBibliothek->songs[i].titel, musikBibliothek->songs[i].kuenstler, musikBibliothek->songs[i].album, musikBibliothek->songs[i].jahr);
             gefunden = 1;
         }
     }
@@ -131,16 +128,17 @@ void bibliothekDurchsuchen(const struct MusikBibliothek *musikBibliothek) {
 }
 
 void testfaelle(struct MusikBibliothek *musikBibliothek, const char *dateiPfad) {    
+    FILE *datei = fopen(dateiPfad, "w");
     struct MusikBibliothek musikBib;
+    struct song songs;
     musikBib.songAnzahl = 0;
     
     printf("\nTestfälle:\n");
         printf("1. Bibliothek laden & speichern\n");
         printf("2. Song hinzufügen & Bibliothek durchsuchen\n");
-        printf("3. Song hinzufügen & Metadaten bearbeiten\n");
-        printf("4. Song hinzufügen & löschen\n");
-        printf("5. Bibliotehk laden & Song hinzufügen\n");
-        printf("6. Song hinzufügen & Metadaten bearbeiten & Bibliothek durchsuchen\n");
+        printf("3. Song hinzufügen & löschen\n");
+        printf("4. Bibliothek laden & Song hinzufügen\n");
+        printf("5. Song hinzufügen & Metadaten bearbeiten & Bibliothek durchsuchen\n");
 
         int test;
         scanf("%d", &test);
@@ -156,17 +154,13 @@ void testfaelle(struct MusikBibliothek *musikBibliothek, const char *dateiPfad) 
                 break;
             case 3:
                 songHinzufuegen(&musikBib);
-                songBearbeiten(&musikBib);
-                break;
-            case 4:
-                songHinzufuegen(&musikBib);
                 songLoeschen(&musikBib);
                 break;
-            case 5:
+            case 4:
                 bibliothekLaden(&musikBib, dateiPfad);
                 songHinzufuegen(&musikBib);
                 break;
-            case 6:
+            case 5:
                 songHinzufuegen(&musikBib);
                 songBearbeiten(&musikBib);
                 bibliothekDurchsuchen(&musikBib);

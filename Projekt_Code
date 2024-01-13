@@ -126,6 +126,49 @@ void bibliothekDurchsuchen(const struct MusikBibliothek *musikBibliothek) {
     }
 }
 
+void testfaelle(struct MusikBibliothek *musikBibliothek, const char *dateiPfad) {    
+    printf("\nTestfälle:\n");
+        printf("1. Bibliothek laden & speichern\n");
+        printf("2. Song hinzufügen & Bibliothek durchsuchen\n");
+        printf("3. Song hinzufügen & Metadaten bearbeiten\n");
+        printf("4. Song hinzufügen & löschen\n");
+        printf("5. Bibliotehk laden & Song hinzufügen\n");
+        printf("6. Song hinzufügen & Metadaten bearbeiten & Bibliothek durchsuchen\n");
+
+        int test;
+        scanf("%d", &test);
+        
+        switch(test) {
+            case 1:
+                bibliothekLaden(&musikBib, dateiPfad);
+                bibliothekSpeichern(&musikBib, dateiPfad);    
+                break;
+            case 2:
+                songHinzufuegen(&musikBib);
+                bibliothekDurchsuchen(&musikBib);
+                break;
+            case 3:
+                songHinzufuegen(&musikBib);
+                songBearbeiten(&musikBib);
+                break;
+            case 4:
+                songHinzufuegen(&musikBib);
+                songLoeschen(&musikBib);
+                break;
+            case 5:
+                bibliothekLaden(&musikBib, dateiPfad);
+                songHinzufuegen(&musikBib);
+                break;
+            case 6:
+                songHinzufuegen(&musikBib);
+                songBearbeiten(&musikBib);
+                bibliothekDurchsuchen(&musikBib);
+                break;
+            default:
+                printf("Ungültige Auswahl\n");
+        }
+}
+
 int main() {
     struct MusikBibliothek musikBib;
     musikBib.songAnzahl = 0;
@@ -145,7 +188,7 @@ int main() {
         printf("Option auswählen (1-7): ");
         scanf("%d", &auswahl);
 
-        switch (auswahl) {
+        switch(auswahl) {
             case 1:
                 bibliothekLaden(&musikBib, dateiPfad);
                 break;
@@ -167,6 +210,9 @@ int main() {
             case 7:
                 printf("Programm wird beendet.\n");
                 return 0;
+            case 8:
+                testfaelle(&musikBib, dateiPfad);
+                break;
             default:
                 printf("Ungültige Auswahl. Bitte erneut versuchen.\n");
         }

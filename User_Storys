@@ -1,0 +1,42 @@
+User Stories und Akzeptanzkriterien für das Musikbibliotheksverwaltungsprojekt:
+
+Als Benutzer möchte ich die Möglichkeit haben, die bestehende Musikbibliothek zu laden, um meine bereits gespeicherten Titel zu sehen.
+Akzeptanzkriterien:
+Der Benutzer kann die Option "Bibliothek laden" auswählen.
+Die Anwendung liest die Musikbibliotheksdatei erfolgreich ein.
+Die Anwendung gibt eine Erfolgsmeldung aus.
+Als Benutzer möchte ich die Möglichkeit haben, die Musikbibliothek zu speichern, um Änderungen zu sichern.
+Akzeptanzkriterien:
+Der Benutzer kann die Option "Bibliothek speichern" auswählen.
+Die Anwendung speichert die Musikbibliotheksdatei erfolgreich.
+Die Anwendung gibt eine Erfolgsmeldung aus.
+Als Benutzer möchte ich die Möglichkeit haben, einen neuen Titel zur Musikbibliothek hinzuzufügen, um meine Sammlung zu erweitern.
+Akzeptanzkriterien:
+Der Benutzer kann die Option "Titel hinzufügen" auswählen.
+Der Benutzer gibt Titel, Künstler, Album und Erscheinungsjahr ein.
+Die Anwendung fügt den neuen Titel erfolgreich zur Bibliothek hinzu.
+Die Anwendung gibt eine Erfolgsmeldung aus.
+Als Benutzer möchte ich die Möglichkeit haben, die Meta-Daten eines ausgewählten Titels zu ändern, um Informationen zu aktualisieren.
+Akzeptanzkriterien:
+Der Benutzer kann die Option "Meta-Daten bearbeiten" auswählen.
+Der Benutzer gibt den zu bearbeitenden Titel an.
+Der Benutzer wählt das Meta-Datenfeld aus (Titel, Künstler, Album, Jahr).
+Der Benutzer gibt den neuen Wert ein.
+Die Anwendung aktualisiert erfolgreich die Meta-Daten des ausgewählten Titels.
+Die Anwendung gibt eine Erfolgsmeldung aus.
+Als Benutzer möchte ich die Möglichkeit haben, einen Titel aus der Musikbibliothek zu löschen, um Platz zu schaffen oder fehlerhafte Einträge zu entfernen.
+Akzeptanzkriterien:
+Der Benutzer kann die Option "Titel löschen" auswählen.
+Der Benutzer gibt den zu löschenden Titel an.
+Die Anwendung entfernt erfolgreich den ausgewählten Titel aus der Bibliothek.
+Die Anwendung gibt eine Erfolgsmeldung aus.
+Als Benutzer möchte ich die Möglichkeit haben, in der Musikbibliothek nach Titeln oder Meta-Daten zu suchen, um bestimmte Titel leichter zu finden.
+Akzeptanzkriterien:
+Der Benutzer kann die Option "Bibliothek durchsuchen" auswählen.
+Der Benutzer gibt einen Suchbegriff ein.
+Die Anwendung zeigt alle Titel an, die den Suchbegriff enthalten.
+Die Anwendung gibt eine Erfolgsmeldung aus, auch wenn keine Ergebnisse gefunden wurden.
+Als Benutzer möchte ich die Möglichkeit haben, das Programm zu beenden, um die Anwendung zu schließen.
+Akzeptanzkriterien:
+Der Benutzer kann die Option "Beenden" auswählen.
+Die Anwendung schließt sich ordnungsgemäß.

@@ -132,7 +132,7 @@ int main() {
     const char *dateiPfad = "musik_bib.txt";
 
     while (1) {
-        printf("\n=== Musikbibliothek verwalten ===\n");
+        printf("\nMusikbibliothek verwalten\n");
         printf("1. Bibliothek laden\n");
         printf("2. Bibliothek speichern\n");
         printf("3. Song hinzufügen\n");

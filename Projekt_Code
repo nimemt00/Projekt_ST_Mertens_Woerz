@@ -87,11 +87,15 @@ void songBearbeiten(struct MusikBibliothek *musikBibliothek) {
 
 void songLoeschen(struct MusikBibliothek *musikBibliothek) {
     char loeschenTitel[100];
-    printf("Titel des zu löschenden Lieds eingeben: ");
+    char loeschenKuenstler[100];
+    printf("Titel & Kuenstler des zu löschenden Lieds eingeben: \n");
+    printf("Titel:\n");
     scanf("%s", loeschenTitel);
+    printf("Kuenstler:\n");
+    scanf("%s", loeschenKuenstler);
 
     for (int i = 0; i < musikBibliothek->songAnzahl; ++i) {
-        if (strcmp(musikBibliothek->songs[i].titel, loeschenTitel) == 0) {
+        if (strcmp(musikBibliothek->songs[i].titel, loeschenTitel) == 0 && strcmp(musikBibliothek->songs[i].kuenstler, loeschenKuenstler) == 0) {
             for (int j = i; j < musikBibliothek->songAnzahl - 1; ++j) {
                 musikBibliothek->songs[j] = musikBibliothek->songs[j + 1];
             }
@@ -111,7 +115,7 @@ void bibliothekDurchsuchen(const struct MusikBibliothek *musikBibliothek) {
     int gefunden = 0;
     printf("Suchergebnisse:\n");
     for (int i = 0; i < musikBibliothek->songAnzahl; ++i) {
-        if (strstr(musikBibliothek->songs[i].titel, suchbegriff) != NULL) {
+        if (strstr(musikBibliothek->songs[i].titel, suchbegriff) || strstr(musikBibliothek->songs[i].kuenstler, suchbegriff) || strstr(musikBibliothek->songs[i].album, suchbegriff) || strstr(musikBibliothek->songs[i].jahr, suchbegriff) != NULL) {
             printf("Titel: %s, Künstler: %s, Album: %s, Jahr: %s\n",
                    musikBibliothek->songs[i].titel,
                    musikBibliothek->songs[i].kuenstler,
@@ -127,6 +131,9 @@ void bibliothekDurchsuchen(const struct MusikBibliothek *musikBibliothek) {
 }
 
 void testfaelle(struct MusikBibliothek *musikBibliothek, const char *dateiPfad) {    
+    struct MusikBibliothek musikBib;
+    musikBib.songAnzahl = 0;
+    
     printf("\nTestfälle:\n");
         printf("1. Bibliothek laden & speichern\n");
         printf("2. Song hinzufügen & Bibliothek durchsuchen\n");

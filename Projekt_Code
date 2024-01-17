@@ -41,7 +41,7 @@ void songHinzufuegen(struct MusikBibliothek *musikBibliothek) {
     printf("Liedinformationen eingeben:\n");
     printf("Titel: ");
     char Titel[100];
-    scanf("%s", Titel);
+    scanf("%s", songs.titel);
     printf("Künstler: ");
     scanf("%s", songs.kuenstler);
     printf("Album: ");

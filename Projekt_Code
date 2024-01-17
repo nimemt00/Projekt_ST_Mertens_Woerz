@@ -176,14 +176,14 @@ int main() {
     const char *dateiPfad = "musik_bib.txt";
 
     while (1) {
-        printf("\nMusikbibliothek verwalten\n");
+        printf("\nMusikbibliothek verwalten\n\n");
         printf("1. Bibliothek laden\n");
         printf("2. Bibliothek speichern\n");
         printf("3. Song hinzufügen\n");
         printf("4. Metadaten bearbeiten\n");
         printf("5. Song löschen\n");
         printf("6. Bibliothek durchsuchen\n");
-        printf("7. Beenden\n");
+        printf("7. Beenden\n\n");
 
         int auswahl;
         printf("Option auswählen (1-7): ");
